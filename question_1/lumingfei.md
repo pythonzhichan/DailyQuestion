@@ -1,5 +1,6 @@
 路明非的回答
 
+``` python
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
@@ -29,3 +30,4 @@ print('---------\n')
 i = 0
 for i, element in enumerate(numbers):
     print(i, element)
+```
