@@ -1,6 +1,4 @@
 nmubers=[10,29,30,41]
-index = 0
-for num in numbers:
-    print(index,num)
-    index = index+1
+for index,item in enumerate(numbers):
+    print((index,item))
     
