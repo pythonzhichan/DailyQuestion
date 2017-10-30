@@ -1,3 +1,4 @@
+<pre><code>
 #-*-coding:utf-8-*-
 import random
 
@@ -13,3 +14,4 @@ for i in range(5):
 	elif guess_number < right_number:
 		print('your guess_number is smaller')
 		continue
+</code></pre>
