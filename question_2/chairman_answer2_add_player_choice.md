@@ -1,6 +1,5 @@
 import random
 print("let's begin now!")
-player_choice = True
 player_choice = input("Press 'enter' to start or press 'q' to quit")
 while True:
     random_num = random.randint(1,100)
