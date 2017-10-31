@@ -20,19 +20,21 @@ def guessNum():
 
     startGame()
     while totalCount > 0:
-        totalCount -= 1
-        choiseNum = int(input("请输入："))
-        
-        if choiseNum == number:
-            endGame(number,True)
-            break
-        elif choiseNum > number and totalCount > 0:
-            print("数字大了,还有{0}次机会".format(totalCount))
-        elif choiseNum < number and totalCount > 0:
-            print("数字小了,还有{0}次机会".format(totalCount))
-        
-        if(totalCount == 0):
-            endGame(number)
-
+        choiseNum = input("请输入：")
+        if choiseNum.isdigit():
+            totalCount -= 1
+            choiseNum = int(choiseNum)
+            if choiseNum == number:
+                endGame(number,True)
+                break
+            elif choiseNum > number and totalCount > 0:
+                print("数字大了,还有{0}次机会".format(totalCount))
+            elif choiseNum < number and totalCount > 0:
+                print("数字小了,还有{0}次机会".format(totalCount))
+            
+            if(totalCount == 0):
+                endGame(number)
+        else:
+            print("输入有误")
 if __name__ == '__main__':
     guessNum()
