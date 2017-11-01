@@ -21,8 +21,7 @@ __mtime__ = '2017/11/1 0001'
 
 import re
 from collections import Counter
-import os
-print(os.path.abspath('.'))
+
 filesource = 'import_this.txt'
 
 def getword(checkfile,checknum):
