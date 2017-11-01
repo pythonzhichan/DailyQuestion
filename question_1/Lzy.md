@@ -11,4 +11,3 @@
 numbers= [10, 29, 30, 41]
 for key, value in enumerate(numbers):
     print "(%s,%s)" %(key,value)
-    
