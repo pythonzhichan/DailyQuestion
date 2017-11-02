@@ -1,5 +1,5 @@
 ## 思路
-* 将所有单词转换从小写，提取所有的单词（我使用了正则）到一个列表中
+* 将所有单词转换为小写，提取所有的单词（我使用了正则）到一个列表中
 * 计算每个单词出现的次数（频率）
 * 创建一个字典，存放：{单词频率 : [单词列表]}（同一频率的单词放在同一列表，并且该列表中没有重复单词）
 * 将字典按频率从高到低排序
@@ -76,8 +76,8 @@ def before(out_num, rsort = False):
 if __name__ == '__main__':
 	before(5, True)
 ```
-##
-* 本想进一步代码抽象化，但由于对面向对象编程还不太熟练，具体错在什么地方，如何修改都不知道
+## 进一步面向对象
+* 本想进一步把代码抽象化，但由于对面向对象编程还不太熟练，具体错在什么地方，如何修改都不知道
 ```
 import re
 def __init__(self, filename, out_num, rsort=False):
@@ -122,4 +122,4 @@ if __name__ == '__main__':
 	before(5, True)
 ```
 ## 遇到的问题：
-* 代码中的 word_join = word_dict[count]+[word]，是向单词列表中添加新单词。但原先是用 word_join = word_dict[count].append([word])，但不知道为什么老是返回 None，不知道是哪里的问题。
+* 代码中的 word_join = word_dict[count]+[word]，是向单词列表中添加新单词。但原先是用这种方法的： word_join = word_dict[count].append([word])，但不知道为什么老是返回 None，不知道是哪里的问题。
