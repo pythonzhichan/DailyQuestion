@@ -16,18 +16,18 @@ def version2():
             data = f.read().lower()
 
         words = re.findall(r'\w+', data)
-        mapping = {}
+        mapping = dict()
         for word in words:
             mapping[word] = mapping.get(word, 0) + 1
         return mapping
 
     def count_common(path, n):
+        assert n > 0
         mapping = read_data(path)
         return sorted(mapping.items(), key=lambda item: item[1], reverse=True)[:n]
 
     print(count_common('import_this.txt', 5))
 
+
 version1()
 version2()
-
-
