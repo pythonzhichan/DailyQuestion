@@ -25,6 +25,7 @@ def version2():
         assert n > 0
         mapping = read_data(path)
         return sorted(mapping.items(), key=lambda item: item[1], reverse=True)[:n]
+        a = str()
 
     print(count_common('import_this.txt', 5))
 
