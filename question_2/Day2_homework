@@ -1,0 +1,18 @@
+import random
+guess_num=random.randint(1,100)
+print guess_num
+input_num = 0;
+tries = 0
+
+while input_num!=guess_num and tries<6:
+	input_num = int(raw_input('please input a number:->'))
+	if input_num <guess_num:
+		print("Too small")
+	elif input_num >guess_num:
+		print("Too large")
+	elif input_num==guess_num:
+		print('You find it')
+		break
+	tries+=1
+print("game is over")
+
