@@ -1,3 +1,8 @@
+# 每日一题 # 第3题：
+统计一个文件中每个单词出现的次数，列出出现频率最多的5个单词。
+
+文件我上传到了附件，内容其实就是 import this 打印出来的“Python之禅”，不方便下载的可以把 下面的内容拷贝保存到文本中。
+
 The Zen of Python, by Tim Peters
 
 Beautiful is better than ugly.
