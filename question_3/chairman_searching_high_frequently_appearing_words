@@ -1,0 +1,61 @@
+class Searching_word():
+    def __init__(self,filename,word_num):
+        self.filename = filename
+        self.word_num = word_num
+
+    def transform_txt_to_word_list(self):
+
+        #打开文件
+
+        with open(self.filename) as file_object:
+            lines = file_object.readlines()
+
+        #生成原始语句串
+
+        raw_whole_string = ''
+        for line in lines:
+            raw_whole_string += line.rstrip()
+            raw_whole_string += ' '
+        whole_string = raw_whole_string.lower()
+
+        #获取单词列表
+
+        word_list = []
+        word = ''
+        for letter in whole_string:
+            if letter != ' ':
+                if 'a'<= letter <= 'z':
+                    word += letter
+            else:
+                word_list.append(word)
+                word = ''
+        return word_list
+
+    def make_word_time_dict(self,word_list):
+
+        #生成单词频率字典
+
+        word_dict = {}
+        for serching_word in word_list:
+            if serching_word not in word_dict:
+                word_dict[serching_word] = 1
+            else:
+                word_dict[serching_word] +=1
+        return word_dict
+
+    def print_output(self,word_dict):
+
+        #对字典进行排序并输出
+
+        sorted_dict = sorted(word_dict.items(), key=lambda d:d[1], reverse = True)
+        print("The first five most frequently appearing words in txt file are:")
+        output_time = 0
+        while output_time < self.word_num:
+            print("'" + sorted_dict[output_time][0] + "'" + ' appears ' + str(sorted_dict[output_time][1]) + ' times.')
+            output_time +=1
+
+
+searching_first_five_words = Searching_word('import_this.txt',5)
+word_list = searching_first_five_words.transform_txt_to_word_list()
+word_dict = searching_first_five_words.make_word_time_dict(word_list)
+searching_first_five_words.print_output(word_dict)
