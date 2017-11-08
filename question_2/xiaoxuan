@@ -1,0 +1,17 @@
+import random
+TargetNum = random.randint(0,100)
+print "Hey! Let's start the game!!!"
+print "Please guess the correct number in 5 times!!!"
+print TargetNum
+for count in range(0,5):
+    GuessNum = int(input("Please input the number in your mind: "))
+    if GuessNum > TargetNum:
+        print "The number that you input is too large"
+    elif GuessNum < TargetNum:
+        print "The number that you input is too small"
+    elif GuessNum == TargetNum:
+        print "YOU MADE IT! YOU ARE SUCH A LUCKY DOG!"
+        break
+if count == 4&GuessNum != TargetNum:
+    print "YOU WASTED 5 TIMES! YOU ARE SUCH A IDIOT!!!"
+    print "The CORRECT NUMBER IS: ",TargetNum
