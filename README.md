@@ -20,4 +20,45 @@ Python之禅和他朋友们知识星球的每日一题  https://t.xiaomiquan.com
 
 ![fib](./images/fn.png)
 
+## 第5题：
+
+一个完整的URL由5部分组成，格式为：
+
+```
+<scheme>://<netloc>/<path>?<query_params>#<fragment>
+```
+
+例如
+```python
+url = "http://mp.weixin.qq.com/s?__biz=MzA4MjEyNTA5Mw==&mid=2652566513#wechat_redirect"
+```
+解析后得到：
+```
+scheme='http'
+netloc='mp.weixin.qq.com'
+path='/s'
+query_params='__biz=MzA4MjEyNTA5Mw==&mid=2652566513'
+fragment='wechat_redirect'
+```
+
+问题：设计一个算法，将URL转换成5部分，注意，query_params 要转换成字典类型
+
+```
+query_params={'__biz': 'MzA4MjEyNTA5Mw==', 'mid=2652566513'}
+```
+
+提示：字符串在编程中是最常用的操作之一，这个题目主要是要求大家熟悉字符串的常用方法。此外，大家尽可能用抽象、面向对象的风格来写。可以设计一个URL的类，还有一个算法，大概的框架就是下面这样子。
+
+```python
+class URL:
+	....
+    pass
+
+def url_parse(url):
+	.....
+	return URL(xxx)
+```
+
+
+
 
