@@ -12,29 +12,29 @@ class URL(object):
         self.fregment = None
 
     def parse(self):
-        if self.url.find('://') != -1:
+        if '://' in self.url:
             self.scheme, tail = self.url.split('://')
         else:
             tail = self.url
-        if tail.find('/') != -1:
+        if '/' in tail:
             sep = tail.find('/')
             self.netloc = tail[:sep]
             tail = tail[sep:]
         else:
             self.netloc = tail
-        if tail.find('#') != -1:
+        if '#' in tail:
                 tail, fregment = tail.split('#')
                 self.fregment = fregment if fregment else None
-        if tail.find('?') != -1:
+        if '?' in tail:
             self.path, tail = tail.split('?')
             if not tail:
                 self.query_params = None
             else:
-                params = tail.split('&') if tail.find('&') else [tail]
+                params = tail.split('&') if '&' in tail else [tail]
                 for item in params:
                     sep = item.find('=')
-                    key = item[:sep]
-                    val = item[sep+1:]
+                    key = item[:sep] if sep > -1 else item
+                    val = item[sep+1:] if sep > -1 else None
                     self.query_params.update({key : val})
         else:
             self.path = tail
