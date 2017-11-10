@@ -19,7 +19,13 @@ URL = collections.namedtuple('URL', 'schema netloc path query_params fragment')
 
 
 def url_parse(url):
-    url_regex = re.compile(r'(\w+)://([\w./]+)(/(\w+))\?(.+)#(.+)')
+    url_regex = re.compile(r'''
+                    (\w+)         #schema
+                    ://([\w./]+)  #netloc
+                    (/(\w+))      #path
+                    \?(.+)        #query_params
+                    \#(.+)        #fragment
+                    ''', re.VERBOSE)
     ma = url_regex.search(url)
 
     params = {
