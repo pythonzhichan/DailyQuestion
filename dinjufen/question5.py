@@ -72,7 +72,11 @@ url5 = "https://www.baidu.com/s?wd=url%E5%AE%8C%E6%95%B4%E6%A0%BC%E5%BC%8F&rsv_s
 url6 = "www.youtube.com/"
 url7 = "http://www.w3school.com.cn/h.asp"
 
+
 #一些例子
+=======
+#验证
+
 urls = [url0,url1, url2, url3, url4, url5, url6, url7]
 for url in urls:
     tmp_url = url_parse(url)
