@@ -57,13 +57,6 @@ import re
 # print dict(ff)
 
 
-# class Url(object):
-#     def __init__(self,url):
-#         self.url = url
-#
-#     def url_parse(self):
-#
-
 # 类及函数方法：
 
 class Url(object):
