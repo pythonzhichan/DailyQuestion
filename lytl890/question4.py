@@ -1,0 +1,23 @@
+def fib(n):
+    if n==0:
+        return 0
+    elif n==1:
+        return 1
+    else:
+        return fib(n-1)+fib(n-2)
+if __name__=="__main__":
+    n=3
+    print('你有输入出错{}次的机会'.format(n))
+    while True:
+        if n>0:
+            number=input('请输入要输出多少项斐波那契数:')
+            if number<1:
+                n-=1
+                print ('你输入的数字小于1，请输入大于1的数字,你还剩余%s次机会了'%n)
+            else:
+                for i in range(1,number+1):
+                    print fib(i),
+                print '\n'
+        else:
+            break
+    print ('游戏结束')
