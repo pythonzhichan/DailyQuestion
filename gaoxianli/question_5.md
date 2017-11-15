@@ -17,7 +17,7 @@
 ![relatively path](./images/relatively_path.png)
 
 其实际的绝对路径是
-https://mp.weixin.qq.com/debug/wxadoc/dev**/?t=2017112**
+> https://mp.weixin.qq.com/debug/wxadoc/dev/?t=2017112
 
 **没有 path**
 > https://mp.weixin.qq.com
@@ -134,7 +134,7 @@ https://mp.weixin.qq.com/debug/wxadoc/dev**/?t=2017112**
 
 ![path_and_file.png](./images/path_and_file.png)
 
-https://github.com**/pythonzhichan/DailyQuestion**
+> https://github.com/pythonzhichan/DailyQuestion
 
 而路径又分为绝对路径与相对路径，如下：
 
@@ -142,7 +142,7 @@ https://github.com**/pythonzhichan/DailyQuestion**
 
 其实际的绝对路径是
 
-https://mp.weixin.qq.com/debug/wxadoc/dev**/?t=2017112**
+> https://mp.weixin.qq.com/debug/wxadoc/dev/?t=2017112
 
 这种情况比较复杂就先不考虑
 
@@ -158,7 +158,7 @@ https://mp.weixin.qq.com/debug/wxadoc/dev**/?t=2017112**
 ### query\_params
 
 第四部分是**查询参数**，路径之后以问号“?”开始（不包含“?”），等号左右两边分别是参数关键字及其对应的值，参数之间以“&”符号分隔，如：
-http://mp.weixin.qq.com/s?**\_\_biz**=**MzA4MjEyNTA5Mw==**&**mid**=**2652566513**#wechat\_redirect
+> http://mp.weixin.qq.com/s?__biz=MzA4MjEyNTA5Mw==&mid=2652566513#wechat_redirect
 
 key:
 ```
@@ -173,7 +173,7 @@ value:
 ### fragment
 
 第五部分是**分段**，通常是查询参数部分之后的井号“#”后面的字符串，如：
-http://mp.weixin.qq.com/s?\_\_biz=MzA4MjEyNTA5Mw==&mid=2652566513#**wechat\_redirect**
+> http://mp.weixin.qq.com/s?__biz=MzA4MjEyNTA5Mw==&mid=2652566513#wechat_redirect
 
 第五部分也是可有可无
 可以看出 **wechat\_redirect** 是最后一个字符串，它作为结尾
