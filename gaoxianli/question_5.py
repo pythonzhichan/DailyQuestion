@@ -13,7 +13,7 @@ class url:
 		netloc=m.group()
 
 		# 路径
-		m = re.search(r"(?<=[a-zA-Z])?(\/[\w\-\.\#\%\(\)\']+)+", self.url_str)
+		m = re.search(r"(?<=[a-zA-Z])(\.?\/[\w\-\.\#\%\(\)\']*)+", self.url_str)
 		path=m.group()
 
 		# 查询参数
