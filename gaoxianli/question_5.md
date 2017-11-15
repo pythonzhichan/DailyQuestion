@@ -15,6 +15,7 @@
 > ./?t=2017112
 
 ![relatively path](./images/relatively_path.png)
+
 其实际的绝对路径是
 > https://mp.weixin.qq.com/debug/wxadoc/dev**/?t=2017112**
 
@@ -41,7 +42,9 @@
 
 第一部分是**模式/协议**，它告诉浏览器如何处理将要打开的文件。常见的协议有 http（超文本传输协议）、https（加密版的http）、ftp（文件传输协议）、……，
 其它协议还有：
+
 ![Transfer Protocol](./images/Transfer_Protocol.png)
+
 ![WSS Transfer Protocol](./images/WSS_Transfer_Protocol.png)
 
 它在 URL 字符串中的特征是：如果一个URL链接中包含传输协议字符串，那么它肯定是在最前面几个字符串并且它之后是“://”，因为协议都是由字母组成，所以它的正则可以写成一下方式：
@@ -51,7 +54,9 @@
 ```
 其中 `(?=://)` 表示以“**://**”结尾，但**不**包含“**://**”
 考虑到很多页面的链接也有以不区分协议的方式书写，如下所示：
+
 ![No distinction between agreements](./images/No_distinction_between_agreements.png)
+
 > //s01.mifile.cn/css/index.min.css?a4fc84
 
 可能还有以下情况：
@@ -126,14 +131,17 @@
 ```
 
 路径本质上是指向某个目录下的文件，而有时看到的 URL 好像只有路径，其实最后一个“目录”就是没有后缀、内容为 html 文本的文件，如下：
+
 ![path_and_file.png](./images/path_and_file.png)
 
-> https://github.com**/pythonzhichan/DailyQuestion**
+`https://github.com**/pythonzhichan/DailyQuestion**`
 
 而路径又分为绝对路径与相对路径，如下：
+
 ![relatively path](./images/relatively_path.png)
+
 其实际的绝对路径是
-> https://mp.weixin.qq.com/debug/wxadoc/dev**/?t=2017112**
+`https://mp.weixin.qq.com/debug/wxadoc/dev**/?t=2017112**`
 
 这种情况比较复杂就先不考虑
 
@@ -184,7 +192,7 @@ findall()|所有匹配项组成一个列表返回
 
 ## 完整代码
 为了保证调试正则时知道是哪部分写的有问题，方便调错修改，所以没选择把五部分的正则写在一起
-```
+```python
 import re
 class url:
 	def __init__(self, url_str):
