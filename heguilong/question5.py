@@ -37,8 +37,8 @@ class URL:
         self.fragment = fragment
 
     def __str__(self):
-        return "scheme='{}', netloc='{}', path='{}', query_params={}, fragment='{}'" \
-            .format(self.schema, self.netloc, self.path, self.params, self.fragment)
+        return "scheme='{}', netloc='{}', path='{}', query_params={}, fragment='{}'".format(
+            self.schema, self.netloc, self.path, self.params, self.fragment)
 
 
 def _params_parse(params):
@@ -78,8 +78,9 @@ def parse_url(url):
             query_params[q[0]] = q[1]
     else:
         query_params = None
-    return URL(schema=m.group(1), netloc=m.group(2), path=m.group(3),
-               query_params=query_params, fragment=m.group(7))
+    return URL(
+        schema=m.group(1), netloc=m.group(2), path=m.group(3),
+        query_params=query_params, fragment=m.group(7))
 
 
 if __name__ == "__main__":
