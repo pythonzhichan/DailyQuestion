@@ -31,4 +31,3 @@ if __name__=="__main__":
 	print 'path is %s'%ttt[2]
 	print 'query_params is %s'%ttt[3]
 	print 'fragment is %s'%ttt[4]
-	#rint ttt
