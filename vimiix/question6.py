@@ -12,12 +12,16 @@ optional arguments:
 
 import os
 import argparse
-from collections import namedtuple
 import logging
 
 
 class Counter(object):
-    '''TODO docstring'''
+    '''By specifying the programming language and filepath, 
+       the class will count the number of files in a path, 
+       the number of lines of code in the file, 
+       the number of comment lines, 
+       the number of blank lines
+    '''
 
     def __init__(self, path, language):
         self.path = path
