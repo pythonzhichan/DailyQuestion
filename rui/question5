@@ -1,0 +1,44 @@
+from collections import namedtuple
+
+
+class URL():
+
+
+	def get_params(slef,query_params):
+		param_dict = {}
+		params = []
+		param1_pos = query_params.index('=')
+		param1 = query_params[:param1_pos]
+		query_params = query_params[param1_pos+1:]
+		param_dict.setdefault(param1,[]).append(query_params)
+		param1_pos = query_params.index('&')
+		query_params = query_params[param1_pos+1:]
+		param_dict.setdefault(param1,[]).append(query_params)
+		return param_dict
+
+
+
+
+	def url_parse(self,url):
+	    frage_pos = url.index('#')
+	    fragement = url[frage_pos+1:]
+	    query_pos = url.index('?')
+	    query_params = url[query_pos+1:frage_pos]
+	    query_dict = {}
+	    query_dict = self.get_params(query_params)
+	    path_pos_begin = url.rindex('/')
+	    path_pos_end = url.index('?')
+	    path = url[path_pos_begin:path_pos_end]
+	    netloc_pos_begin = url.index('/')
+	    netloc = url[netloc_pos_begin+2:path_pos_begin]
+	    scheme = url[:netloc_pos_begin-1]
+	    Url = namedtuple('Url','scheme netloc path query_params fragement')
+	    return Url(scheme=scheme,netloc=netloc,path=path,query_params=query_dict,fragement=fragement)
+
+
+
+
+if __name__ == '__main__':
+	url_str = 'http://mp.weixin.qq.com/s?__biz=MzA4MjEyNTA5Mw==&mid=2652566513#wechat_redirect'
+	url = URL()
+	parsed_url = url.url_parse(url_str)
