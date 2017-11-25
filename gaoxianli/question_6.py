@@ -40,9 +40,9 @@ class Statistics_project():
         def all_dir_file(self):
                 dir_lists = os.walk(self.path)
                 for root, dirs, files in dir_lists:
-                        for d in dirs:
+                        # for d in dirs:
                                 # 将目录的路径与目录名合并成目录的绝对路径，然后添加进目录路径列表 all_dir_path
-                                self.all_dir_path.append(os.path.join(root, d))
+                                # self.all_dir_path.append(os.path.join(root, d))
                         for f in files:
                                 self.all_file_path.append(os.path.join(root, f))
  
