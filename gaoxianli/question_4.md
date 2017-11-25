@@ -10,11 +10,11 @@ F(n)=F(n-1)+F(n-2)（n>=2，n∈N*）
 
 也可用通项公式：
 
-![General formula](./images/General_formula1.png)
+![General formula](./images/question_4/General_formula1.png)
 
 (如上，又称为“比内公式”，是用无理数表示有理数的一个范例)
 
-注：此时![General formula](./images/General_formula2.png)
+注：此时![General formula](./images/question_4/General_formula2.png)
 
 ## 思路
 1.用递归方法能求得任意一项的斐波那契数；

@@ -43,7 +43,7 @@ class Statistics_project():
 ```
 遍历所有目录和文件时我使用了 **os** 模块的 **walk()** 方法，它可指定要遍历的路径作为参数，返回由 所有绝对路径、所有目录名列表、文件列表 组成的三个元素。
 如下指定了一个绝对路径：`"I:\MyProject\DailyQuestion\gaoxianli"`，然后通过 `for root, dirs, files in dir_lists:` 迭代打印了这三个元素，如下
-```Python console
+```
 >>> dir_lists = os.walk("I:\MyProject\DailyQuestion\gaoxianli")
 >>> for root, dirs, files in dir_lists:
 ...     print("root: %s " % root)
@@ -233,6 +233,7 @@ m = re.search(r"((?<=\#)([\w\-\/\.]*))?$", self.url_str)
 但还是不够完美，主要是等号与三重引号之间的空格不好处理：filecontent = """string"""
 
 经过不断测试，我注意到虽然多行注释里面的内容不会被计算机执行，但**多行注释符前面那个三重引号（''' 或 """）的位置还是要按照正确的缩进书写**，不然会报错：**IndentationError: unexpected indent** 或 **IndentationError: expected an indented block**（多行注释里面的内容就可以随意书写，单行注释符对缩进没有要求）
+![多行注释缩进问题](./images/question_6/Multi-line_comment_indentation_problem.png)
 所以，**多行注释开头的三重引号前面只能存在空白字符**，根据这个特点又修改了正则表达式：`^\s*([\'\"]{3})[\W\w]*?\1`
 ```python
 # 返回注释数，不考虑单行注释位于代码语句后面的情况
