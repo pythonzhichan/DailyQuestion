@@ -43,7 +43,7 @@ class Statistics_project():
 ```
 遍历所有目录和文件时我使用了 **os** 模块的 **walk()** 方法，它可指定要遍历的路径作为参数，返回由 所有绝对路径、所有目录名列表、文件列表 组成的三个元素。
 如下指定了一个绝对路径：`"I:\MyProject\DailyQuestion\gaoxianli"`，然后通过 `for root, dirs, files in dir_lists:` 迭代打印了这三个元素，如下
-```python
+```Python console
 >>> dir_lists = os.walk("I:\MyProject\DailyQuestion\gaoxianli")
 >>> for root, dirs, files in dir_lists:
 ...     print("root: %s " % root)
@@ -330,7 +330,7 @@ for Language in Languages:
 
 ### 命令行参数
 要实现用命令行执行程序文件时可附加参数，可利用 **sys** 模块的 **argv** 属性
-```python
+```Python console
 I:\MyProject\DailyQuestion\gaoxianli>python question_6.py .. python
 ```
 第一个参数的值是紧接 **python** 命令之后的程序文件名，如上面的："**question_6.py**"
