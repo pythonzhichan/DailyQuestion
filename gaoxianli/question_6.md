@@ -5,7 +5,7 @@
 
 --path 用于指定项目路径
 输出：
-```
+```python
 files:10
 code_lines:200
 comments:100
@@ -14,7 +14,7 @@ blanks:20
 
 看到这道题时，我就有了大概的框架。（本文除了文末的“完整源代码”部分，其它代码都是用于梳理思路的伪代码）
 一个项目文件夹可以包含多级目录，每个目录又可以有不同文件，我可以先遍历项目文件夹下的所有目录，然后找到文件并放进一个列表中，然后根据不同语言它对应不同后缀的代码文件进一步筛选放进另一个列表中。当然这些列表中保存的都是文件的绝对路径，方便直接读取文件里面的内容。因为要分析代码里面哪些是代码行、注释行、空行，所以我首先想到的是用正则来找。大体框架如下：
-```
+```python
 class Statistics_project():
 	# 遍历所有目录和文件，把目录和文件用两个列表区分开
 	def all_dir_file():
@@ -43,7 +43,7 @@ class Statistics_project():
 ```
 遍历所有目录和文件时我使用了 **os** 模块的 **walk()** 方法，它可指定要遍历的路径作为参数，返回由 所有绝对路径、所有目录名列表、文件列表 组成的三个元素。
 如下指定了一个绝对路径：`"I:\MyProject\DailyQuestion\gaoxianli"`，然后通过 `for root, dirs, files in dir_lists:` 迭代打印了这三个元素，如下
-```
+```python
 >>> dir_lists = os.walk("I:\MyProject\DailyQuestion\gaoxianli")
 >>> for root, dirs, files in dir_lists:
 ...     print("root: %s " % root)
@@ -59,7 +59,7 @@ dirs: []
 files: ['Domain_name_rules.png', 'General_formula1.png', 'General_formula2.png', 'No_distinction_between_agreements.png', 'path_and_file.png', 'relatively_path.png', 'Simplified_Chinese_domain_name_suffix.png', 'Transfer_Protocol.png', 'WSS_Transfer_Protocol.png', ' 多行注释缩进问题.png']
 ```
 将目录的绝对路径添加到目录路径列表 **all\_dir\_path** 里，将文件的绝对路径添加到文件路径列表 **all\_file\_path** 里，如下面这段代码：
-```
+```python
 all_dir_path, all_file_path = [], []
 dir_lists = os.walk(path)
 for root, dirs, files in dir_lists:
@@ -72,7 +72,7 @@ for root, dirs, files in dir_lists:
 ```
 ### 统计文件的个数
 文件个数等于文件列表 **all\_file\_path** 的长度：
-```
+```python
 len(all_file_path)
 ```
 
@@ -80,7 +80,7 @@ len(all_file_path)
 遍历文件列表，如果文件后缀是以 **filetype** 结尾的就放进代码文件列表 **all\_code\_file**
 一种语言可能有两种格式的文件后缀，如 **HTML** 文件可以是以 **.html** 或 **htm** 结尾的。
 为了方便迭代操作，这里文件格式是以列表形式存在，其它语言的也要保持这种数据结构，不然在迭代代码文件格式时，可能会将格式字符串分解成一个个字符，导致意想不到的 bug 出现
-```
+```python
 all_code_file = []
 Lang_attr = {"filetype" : ["html", "htm"]}
 for f in all_file_path:
@@ -94,7 +94,7 @@ for f in all_file_path:
 只需提供文件的绝对路径即可读取文件里的内容
 读取文件可能出现解码失败的情况，因为有些文件不是以 **UTF-8** 编码格式保存，需要做异常处理
 注意保存文件内容到变量 **filecontent** 前要清空内容，计算文件总行数的变量 **file\_line\_count** 也要归零。
-```
+```python
 filecontent, file_line_count = "", 0
 try:
 	with open(file_path, encoding="utf8") as f:
@@ -109,7 +109,7 @@ OK，接下来就是要分析代码文件里面的内容了。
 
 首先，为了避免正则表达式由于转义字符导致无法匹配问题，需要在正则表达式字符串前加 **r** 或 **R** 表示原始字符串，如：`r"^\s*(\w)"`
 要匹配和捕获到所有字符串，这里使用 **re** 模块的 **findall()** 方法，它可以返回所有匹配到的字符串组成的列表，不过需要注意的是，如果只给 **findall()** 传入两个参数（正则表达式和文件内容），`re.findall(pattern, filecontent)` 是无法正常匹配到需要的字符串，因为变量 **filecontent** 保存的是**一行**转义的文件内容，例如下面这样：
-```
+```python
 >>> with open("question_2.py", encoding="utf8") as f:
 ...     filecontent = f.read()
 ...
@@ -117,7 +117,7 @@ OK，接下来就是要分析代码文件里面的内容了。
 'import random\nprint("系统已生成了一个1~100之间的整数，请输入系统生成的数字，不过您只有 五次机会")\nprint("游戏开始:\\n")\nnum = random.randint(1,100)\ncount = 5\n\nwhile count:\n    usernum = int(input("第%d次猜的数字是：" % (6 - count)))\n    if usernum == num:\n        print("恭喜您猜中了，答案就是",num)\n        break\n    elif usernum < num:\n        if count != 1:#如果已经是最后一次机会就不用输出\n            print("真不走运，您猜小了，请猜大点的吧:\\n")\n    else:\n        if count != 1:\n            print("真不走运，您 猜大了，请猜小点的吧:\\n")\n    count -= 1\n\nif count == 0:\n    print(\'太倒霉了，您用 光了五次机会，而且还没猜中！\')\nelif count == 1:\n    print("太危险了，刚好最后一次机会 被您猜中了，不过也挺厉害的了！")\nelse:\n    print(\'你牛B，五次机会还没用完就猜中了！\')\n    \nprint("游戏结束")\n'
 ```
 可我希望是有好的缩进便于阅读和便于用正则匹配的多行模式，如下代码是上面一行正常的多行格式：
-```
+```python
 import random
 print("系统已生成了一个1~100之间的整数，请输入系统生成的数字，不过您只有五次机会")
 print("游戏开始:\n")
@@ -151,7 +151,7 @@ print("游戏结束")
 
 代码行数的正则为：`^\s*(\w)`，翻译成人话就是：所有以字母、数字、下划线开头（中间可以有空白字符）的行。
 缺点是有些代码不一定以 \w 开头，如下面以单引号开头的 key：
-```
+```python
 self.Language={
 	'python': {
             'filetype': ['.py'],
@@ -169,7 +169,7 @@ self.Language={
 
 
 代码行数的正则：`^(?!\s*#).*`，翻译成人话就是：匹配除了以井号 **#** 开头的其它行。缺点是会匹配到多行注释，如下多行注释：
-```
+```python
 """
 默认当前目录为工作目录
 默认 Python 语言
@@ -186,7 +186,7 @@ self.Language={
 
 所以，我想如果要用 `^(?!\s*#).*` 这个正则表达式，可以先统计注释行数，再把匹配到的多行注释从变量 **filecontent** 中删除，避免多行注释的干扰导致统计不准确。可是打算这样做的时候，失败了。因为不能有效删掉（应该是哪写的不对）
 然后我就寻找其它方法，发现其实不需要把它删掉，只需减掉多行注释所占的行数即可。
-```
+```python
 def code_lines():
       m = re.search(r"^\s*(['\"]{3})[\S\s]*?(?(1)\1)", filecontent, re.M)
       if m:
@@ -198,11 +198,11 @@ def code_lines():
 ### 统计注释的行数
 注释主要有两种（单行、多行注释）：
 写在井号 **#** 后面的那一行为**单行注释**，如：
-```
+```python
 # 本行为单行注释
 ```
 写在一对三重引号 **""" """** （或 **''' '''**）之间的为**多行注释**，如：
-```
+```python
 """
 这里是多行注释，
 多行注释可以换行，
@@ -213,14 +213,14 @@ def code_lines():
 根据单行注释的特点：不管单行注释是独占一行，还是位于语句后面，写在井号 **#** 后面的那一行为**单行注释**
 单行注释正则：`#.*` 
 经过测试，这种匹配模式会把语句中包含井号 **#** 的字符串也列为注释（虽然这种情况少见，但还是存在的），如下面 **search()** 方法的第一个参数里包含有井号 **#** 字符：
-```
+```python
 # 分段
 m = re.search(r"((?<=\#)([\w\-\/\.]*))?$", self.url_str)
 ```
 上面的井号 # 是以正则表达式字符串的形式存在的，那么它后面就会有个引号作为字符串的结尾，所以我就想只要井号 # 后面不存在引号就是注释，存在引号就是语句里的字符串。然后把单行注释的正则改成了：`#(?!.*('|\")).*	`
 翻译成人话就是：当井号 # 后面不出现引号才匹配
 经过测试，这种正则表达式会把注释中包含有引号（**'** 或 **"**）的也当作语句来处理了，下面就是该匹配却不匹配的注释：
-```
+```python
 # print("代码文件一共有：%d 行" % f)
 ```
 这种注释经常能看到，可用于调试，所以这种正则写得也不合理，不能用。
@@ -234,7 +234,7 @@ m = re.search(r"((?<=\#)([\w\-\/\.]*))?$", self.url_str)
 
 经过不断测试，我注意到虽然多行注释里面的内容不会被计算机执行，但**多行注释符前面那个三重引号（''' 或 """）的位置还是要按照正确的缩进书写**，不然会报错：**IndentationError: unexpected indent** 或 **IndentationError: expected an indented block**（多行注释里面的内容就可以随意书写，单行注释符对缩进没有要求）
 所以，**多行注释开头的三重引号前面只能存在空白字符**，根据这个特点又修改了正则表达式：`^\s*([\'\"]{3})[\W\w]*?\1`
-```
+```python
 # 返回注释数，不考虑单行注释位于代码语句后面的情况
 def comments():
 	m = re.search(r"^\s*(['\"]{3})[\S\s]*?(?(1)\1)", filecontent, re.M)
@@ -245,7 +245,7 @@ def comments():
 		return len(re.findall(r"^\s*([\'\"]{3})[\W\w]*?\1|^\s*#.*", filecontent, re.M))
 ```
 ### 返回空行行数
-```
+```python
 def blanks():
 	return len(re.findall(Lang_attr["Regular_blanks"], filecontent, re.M))
 ```
@@ -284,7 +284,7 @@ def blanks():
 一开始统计总行数我是用正则：`len(re.findall(r".*\n", filecontent, re.M))+1`
 后来想想，可以灵活变通些，多一个变量也没关系，也许会更好
 所以才改成前面的那种形式
-```
+```python
 filecontent, file_line_count = "", 0
 with open(file_path, encoding="utf8") as f:
 	for line in f:
@@ -295,7 +295,7 @@ with open(file_path, encoding="utf8") as f:
 ### 打印统计结果
 一个项目可能有多种不同语言的代码文件，如：**Python**、**HTML**、**CSS**、**JavaScript**……
 当存在多个语言时，把所有编程语言字符串放进一个语言列表中 **Languages**，通过 for 迭代执行统计任务。
-```
+```python
 Language_dict={
 	'python': {
 		# 文件类型
@@ -330,7 +330,7 @@ for Language in Languages:
 
 ### 命令行参数
 要实现用命令行执行程序文件时可附加参数，可利用 **sys** 模块的 **argv** 属性
-```
+```python
 I:\MyProject\DailyQuestion\gaoxianli>python question_6.py .. python
 ```
 第一个参数的值是紧接 **python** 命令之后的程序文件名，如上面的："**question_6.py**"
@@ -339,8 +339,7 @@ I:\MyProject\DailyQuestion\gaoxianli>python question_6.py .. python
 要判断是否有第三个参数的存在，如果使用 `if sys.argv[2]:` 这样的语句，当没提供第三个参数就会产生 **IndexError: list index out of range** 这样的错误，意思是提供的索引值超过了列表最大的索引值。
 使用 `if sys.argv[1:]:` 就不会出现这样的问题。
 本想通过可变参数的方式传参，可我又想它具有默认值的特点（默认当前目录和 python 语言）。没有找到比较好的解决方法，只能暂时写成下面这种看起来比较繁琐的写法：
-```
-
+```python
 # 命令行参数中至少指定 1 种编程语言
 if sys.argv[2:]:
 	# 传入多个编程语言，让其组成一个列表
@@ -360,7 +359,7 @@ else:
 ### 完整源代码
 可传入多个命令行参数，第一个是该程序文件名（必须的，不然怎么执行该程序），第二个是可选的项目路径（默认当前目录），第三个及之后的都是编程语言（默认python语言）
 缺点是每增加一种语言，都要测试该语言注释的正则表达式，如果正则有一点问题都会造成统计误差的增大。
-```
+```python
 import os
 import re
 import sys
