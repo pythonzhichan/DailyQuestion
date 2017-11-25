@@ -58,14 +58,14 @@ root: I:\MyProject\DailyQuestion\gaoxianli\images
 dirs: []
 files: ['Domain_name_rules.png', 'General_formula1.png', 'General_formula2.png', 'No_distinction_between_agreements.png', 'path_and_file.png', 'relatively_path.png', 'Simplified_Chinese_domain_name_suffix.png', 'Transfer_Protocol.png', 'WSS_Transfer_Protocol.png', ' 多行注释缩进问题.png']
 ```
-将目录的绝对路径添加到目录路径列表 **all\_dir\_path** 里，将文件的绝对路径添加到文件路径列表 **all\_file\_path** 里，如下面这段代码：
+将文件的绝对路径添加到文件路径列表 **all\_file\_path** 里，如下面这段代码：
 ```python
 all_file_path = []
 dir_lists = os.walk(path)
 for root, dirs, files in dir_lists:
       for f in files:
       	# 将文件所在的路径与文件名拼接成绝对路径
-            all_file_path.append(os.path.join(root, f))
+      	all_file_path.append(os.path.join(root, f))
 ```
 ### 统计文件的个数
 文件个数等于文件列表 **all\_file\_path** 的长度：
@@ -365,7 +365,7 @@ class Statistics_project():
 	# 默认 Python 语言
 	def __init__(self, Languages=["python"]):
 		self.Languages = Languages
-		self.all_dir_path, self.all_file_path, self.all_code_file = [], [], []
+		self.all_file_path, self.all_code_file = [], []
 		# 不同语言的代码文件对应不同的文件类型
 		self.Language_dict={
 			'python': {
@@ -400,10 +400,8 @@ class Statistics_project():
 	def all_dir_file(self):
 		dir_lists = os.walk(self.path)
 		for root, dirs, files in dir_lists:
-			# for d in dirs:
-				# 将目录的路径与目录名合并成目录的绝对路径，然后添加进目录路径列表 all_dir_path
-				# self.all_dir_path.append(os.path.join(root, d))
 			for f in files:
+				# 将文件所在的路径与目录名合并成目录的绝对路径，然后添加进目录路径列表 all_dir_path
 				self.all_file_path.append(os.path.join(root, f))
  
 	# 统计文件数 files，返回整数
