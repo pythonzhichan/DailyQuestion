@@ -64,8 +64,8 @@ all_file_path = []
 dir_lists = os.walk(path)
 for root, dirs, files in dir_lists:
       for f in files:
-      	# 将文件所在的路径与文件名拼接成绝对路径
-      	all_file_path.append(os.path.join(root, f))
+		# 将文件所在的路径与文件名拼接成绝对路径
+		all_file_path.append(os.path.join(root, f))
 ```
 ### 统计文件的个数
 文件个数等于文件列表 **all\_file\_path** 的长度：
@@ -401,7 +401,7 @@ class Statistics_project():
 		dir_lists = os.walk(self.path)
 		for root, dirs, files in dir_lists:
 			for f in files:
-				# 将文件所在的路径与目录名合并成目录的绝对路径，然后添加进目录路径列表 all_dir_path
+				# 将文件所在的路径与文件名合并成文件的绝对路径，然后添加进文件路径列表 all_file_path
 				self.all_file_path.append(os.path.join(root, f))
  
 	# 统计文件数 files，返回整数
