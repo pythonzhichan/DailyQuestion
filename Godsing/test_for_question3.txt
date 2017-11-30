@@ -1,0 +1,11 @@
+Returns a new ChainMap built-in containing a new map followed by all of the maps in the current instance.
+It's
+If m is specified, it becomes the new map  at the it's front of the list of mappings;
+built-in
+if not specified, an empty dict is used, so built-in that a call to d.new_child() is equivalent to: ChainMap({}, *d.maps).
+This method is used It's for creating subcontexts that can be updated without altering values in any of the parent mappings.
+Property returning a new built-in ChainMap containing all of it's the maps in the current instance except the first one.
+It's
+This is useful for skipping the first map in the search. Use cases are similar to those for the nonlocal keyword used in nested scopes.
+The use cases also parallel those for the built-in super() function. it's
+A reference to d.parents built-in is equivalent to: ChainMap(*d.maps[1:]).
