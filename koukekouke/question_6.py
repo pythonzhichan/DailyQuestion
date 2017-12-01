@@ -25,19 +25,8 @@ class Args(object):
             exit()
         return type_arg
 
-    def get_extension(self):        # 判断语言类型，返回后缀名
-        type_arg = self.type_arg.lower().strip()
-        if 'py' in type_arg:
-            return '.py'
-        elif 'java' in type_arg:
-            return '.java'
-        elif 'php' in type_arg:
-            return '.php'
-        elif 'html' in type_arg:
-            return '.html'
-        else:
-            print('e.g. >>> countor.py --type python')
-            exit()
+    def get_type(self):
+        return self.type_arg
 
 
 class CodeCountor(object):
@@ -50,23 +39,54 @@ class CodeCountor(object):
             'blanks': 0
         }
         self.type = type
+        self._type_config = self._type_config()
         self._file_num = self._file_num()
+
+    def _type_config(self):
+        type_key = self.type.lower().strip()
+        config = {
+            'python': ['.py', r'#[^\'\"]*', r'\s*(\'\'\')|(\"\"\")', r'.*(\'\'\')|(\"\"\")'],
+            'java': ['.java', r'//', r'/\*', r'.*(\*/)'],
+            'php': ['.php', r'//', r'/\*', r'.*(\*/)'],
+            'c': ['.c', r'//', r'/\*', r'.*(\*/)'],
+            'c++': ['.cpp', r'//', r'/\*', r'.*(\*/)']
+        }
+        try:
+            type_config = config[type_key]
+        except KeyError:
+            print('This type is not supported')
+            exit()
+        return type_config
 
     def _file_num(self):        # 遍历当前文件夹下的文件
         all_file = os.listdir('./')
         for filename in all_file:
-            if str(self.type) in filename:
+            if self._type_config[0] in filename:
                 self._lines_count(filename)
                 self.result_dict['files'] += 1
 
     def _lines_count(self, file):       # 统计每行的内容
         with io.open(file, 'r', encoding='utf-8') as f:
+            multi_comments = 0          # 用来判断多行注释
             for line in f.readlines():
-                if re.match(r'\s*[a-zA-Z]+', line):
-                    self.result_dict['code_lines'] += 1
-                if re.search(r'#', line):
-                    self.result_dict['comments'] += 1
-                if not re.search(r'\S', line):
+                if re.search(r'\S', line):        # 判断非空行
+                    if not multi_comments:
+                        if re.match(r'\s*[a-zA-Z]+', line):         # 判断代码行
+                            self.result_dict['code_lines'] += 1
+                        if re.search(self._type_config[1], line):       # 判断单行注释
+                            self.result_dict['comments'] += 1
+                            continue
+                        if re.search(self._type_config[2], line):        # 判断多行注释开始
+                            self.result_dict['comments'] += 1
+                            if not re.search(self._type_config[3], re.sub(self._type_config[2], '', line, 1)):
+                                multi_comments = 1      # 防止多行注释在本行结束
+
+                    elif multi_comments:
+                        self.result_dict['comments'] += 1
+                        if re.match(self._type_config[3], line):        # 判断多行注释结束
+                            multi_comments = 0
+
+                else:                                    # 空行
                     self.result_dict['blanks'] += 1
 
     def get_result(self):
@@ -75,6 +95,6 @@ class CodeCountor(object):
 
 if __name__ == '__main__':
     args = Args()
-    code_countor = CodeCountor(args.get_extension())
+    code_countor = CodeCountor(args.get_type())
     for key, val in code_countor.get_result().items():
         print('%s: %d' % (key, val))
