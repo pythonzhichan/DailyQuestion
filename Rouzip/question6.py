@@ -15,23 +15,24 @@ def statistic_code_file(file):
 
 def statistics_file(root=root):
     parser = argparse.ArgumentParser(
-        prog='have fun', description='¸öÈËĞ¡½Å±¾£¬Í³¼ÆÎÄ¼şÊıÁ¿')
+        prog='have fun',
+        description='personal script to statistic code and files')
     parser.add_argument('-p', '--path', nargs='?',
-                        help='Í³¼ÆÎÄ¼ş¼ĞÎ»ÖÃ', default=os.getcwd())
-    parser.add_argument('-t', '--type', nargs='?', help='Í³¼ÆÎÄ¼şÖÖÀà',
+                        help='dir location', default=os.getcwd())
+    parser.add_argument('-t', '--type', nargs='?', help='file type',
                         choices=['python', 'java'])
     parser.add_argument('--version', action='version', version='%(prog)s 0.01')
     kargs = parser.parse_args()
-    # Ä¬ÈÏÎŞ²ÎÊıÇé¿ö
+    # é»˜è®¤æ— å‚æ•°æƒ…å†µ
     if len(sys.argv[1:]) == 0:
         file_num = 0
         dir_num = 0
         for _, dirs, files in os.walk(kargs.path):
             file_num = file_num + len(files)
             dir_num += len(dirs)
-        # cprint('ÎÄ¼ş¸öÊıÎª£º' + str(file_num), 'red', attrs=['bold'])
-        # cprint('ÎÄ¼ş¼Ğ¸öÊıÎª£º' + str(dir_num), 'red', attrs=['bold'])
-    # Ö¸¶¨ÁËÎÄ¼ş¼ĞµØÖ·£¬Ã»ÓĞÑ¡Ôñ½âÎöÎÄ¼ş
+        cprint('æ–‡ä»¶ä¸ªæ•°ä¸ºï¼š' + str(file_num), 'blue', attrs=['bold'])
+        cprint('æ–‡ä»¶å¤¹ä¸ªæ•°ä¸ºï¼š' + str(dir_num), 'blue', attrs=['bold'])
+    # æŒ‡å®šäº†æ–‡ä»¶å¤¹åœ°å€ï¼Œæ²¡æœ‰é€‰æ‹©è§£ææ–‡ä»¶
     elif kargs.path and kargs.type == None:
         if os.path.exists(kargs.path):
             file_num = 0
@@ -39,87 +40,92 @@ def statistics_file(root=root):
             for _, dirs, files in os.walk(kargs.path):
                 file_num += len(files)
                 dir_num += len(dirs)
-            cprint('ÎÄ¼ş¸öÊıÎª£º' + str(file_num), 'blue', attrs=['bold'])
-            cprint('ÎÄ¼ş¼Ğ¸öÊıÎª£º' + str(dir_num), 'blue', attrs=['bold'])
+            cprint('æ–‡ä»¶ä¸ªæ•°ä¸ºï¼š' + str(file_num), 'blue', attrs=['bold'])
+            cprint('æ–‡ä»¶å¤¹ä¸ªæ•°ä¸ºï¼š' + str(dir_num), 'blue', attrs=['bold'])
         else:
-            cprint('²»´æÔÚ¸ÃÎÄ¼ş¼Ğ£¡', 'red', attrs=['bold'], file=sys.stderr)
-    # Ã»ÓĞÖ¸¶¨£¬Ê¹ÓÃµ±Ç°Â·¾¶
-    elif kargs.path == os.getcwd() and kargs.type != None:
+            cprint('ä¸å­˜åœ¨è¯¥æ–‡ä»¶å¤¹ï¼', 'red', attrs=['bold'], file=sys.stderr)
+    # æ²¡æœ‰æŒ‡å®šï¼Œä½¿ç”¨å½“å‰è·¯å¾„
+    elif kargs.type != None:
         file_num = 0
-        # ×¢ÊÍÊıÁ¿
+        # æ³¨é‡Šæ•°é‡
         comment_num = 0
-        # ´úÂëÊıÁ¿
+        # ä»£ç æ•°é‡
         code_num = 0
-        # ¿Õ¸ñÊıÁ¿
+        # ç©ºæ ¼æ•°é‡
         blank_num = 0
-        # ×÷Îª±ê¼Ç£¬ÅĞ¶ÏÊÇ²»ÊÇÔÚ¶àĞĞ×¢ÊÍÖ®ÖĞ
+        # ä½œä¸ºæ ‡è®°ï¼Œåˆ¤æ–­æ˜¯ä¸æ˜¯åœ¨å¤šè¡Œæ³¨é‡Šä¹‹ä¸­
         in_muti_comment = False
-        for _, _, files in os.walk():
-            # ±éÀúËùÓĞµÄpythonÎÄ¼ş£¬Í³¼Æ
+        for _, _, files in os.walk(kargs.path):
+            # éå†æ‰€æœ‰çš„pythonæ–‡ä»¶ï¼Œç»Ÿè®¡
             if kargs.type == 'python':
                 for file in files:
-                    # ²»ÊÇpython£¬Ö±½ÓÌø¹ı
+                    # ä¸æ˜¯pythonï¼Œç›´æ¥è·³è¿‡
                     if file.split('.')[-1] != 'py':
                         continue
                     file_num += 1
                     with open(file) as f:
-                        line = f.readline().strip()
-                        # Èç¹û²»´¦ÓÚ¶àĞĞ×¢ÊÍ½×¶Î
-                        if not in_muti_comment:
-                            # ÈıÖÖ¿ÉÄÜ£¬´úÂë£¬µ¥ĞĞ×¢ÊÍ£¬¿ÕĞĞ
-                            if len(line) == 0:
-                                blank_num += 1
-                            elif line.startswith("#"):
-                                comment_num += 1
-                            elif line.startswith("'''") or line.startswith('"""'):
-                                in_muti_comment = True
-                                comment_num += 1
+                        for line in f.readlines():
+                            line = line.strip()
+                            # å¦‚æœä¸å¤„äºå¤šè¡Œæ³¨é‡Šé˜¶æ®µ
+                            if not in_muti_comment:
+                                # ä¸‰ç§å¯èƒ½ï¼Œä»£ç ï¼Œå•è¡Œæ³¨é‡Šï¼Œç©ºè¡Œ
+                                if len(line) == 0:
+                                    blank_num += 1
+                                elif line.startswith("#"):
+                                    comment_num += 1
+                                elif line.startswith("'''") or \
+                                        line.startswith('"""'):
+                                    in_muti_comment = True
+                                    comment_num += 1
+                                else:
+                                    code_num += 1
                             else:
-                                code_num += 1
-                        else:
-                            if line.endswith("'''") or line.endswith('"""'):
-                                comment_num += 1
-                                in_muti_comment = False
-                            else:
-                                comment_num += 1
+                                if line.endswith("'''") or \
+                                        line.endswith('"""'):
+                                    comment_num += 1
+                                    in_muti_comment = False
+                                else:
+                                    comment_num += 1
             else:
-                # ±éÀúËùÓĞµÄjava£¬Í³¼Æ
+                # éå†æ‰€æœ‰çš„javaï¼Œç»Ÿè®¡
                 for file in files:
                     if file.split('.')[-1] != 'java':
                         continue
                     file_num += 1
                     with open(file) as f:
-                        line = f.readline().strip()
-                        # Èç¹û²»´¦ÓÚ¶àĞĞ×¢ÊÍ½×¶Î
-                        if not in_muti_comment:
-                            # ÈıÖÖ¿ÉÄÜ£¬´úÂë£¬µ¥ĞĞ×¢ÊÍ£¬¿ÕĞĞ
-                            if len(line) == 0:
-                                blank_num += 1
-                            elif line.startswith("//"):
-                                comment_num += 1
-                            elif line.startswith("/*"):
-                                in_muti_comment = True
-                                comment_num += 1
+                        for line in f.readlines():
+                            line = line.strip()
+                            line = f.readline().strip()
+                            # å¦‚æœä¸å¤„äºå¤šè¡Œæ³¨é‡Šé˜¶æ®µ
+                            if not in_muti_comment:
+                                # ä¸‰ç§å¯èƒ½ï¼Œä»£ç ï¼Œå•è¡Œæ³¨é‡Šï¼Œç©ºè¡Œ
+                                if len(line) == 0:
+                                    blank_num += 1
+                                elif line.startswith("//"):
+                                    comment_num += 1
+                                elif line.startswith("/*"):
+                                    in_muti_comment = True
+                                    comment_num += 1
+                                else:
+                                    code_num += 1
                             else:
-                                code_num += 1
-                        else:
-                            if line.endswith("*/"):
-                                comment_num += 1
-                                in_muti_comment = False
-                            else:
-                                comment_num += 1
-        cprint('ÎÄ¼ş¸öÊıÎª£º' + str(file_num), 'blue', attrs=['bold'])
-        cprint('´úÂëÊıÁ¿Îª£º' + str(code_num), 'blue', attrs=['bold'])
-        cprint('¿Õ¸ñÊıÁ¿Îª£º' + str(blank_num), 'blue', attrs=['bold'])
-        cprint('×¢ÊÍÊıÁ¿Îª£º' + str(comment_num), 'blue', attrs=['bold'])
+                                if line.endswith("*/"):
+                                    comment_num += 1
+                                    in_muti_comment = False
+                                else:
+                                    comment_num += 1
+        cprint('æ–‡ä»¶ä¸ªæ•°ä¸ºï¼š' + str(file_num), 'blue', attrs=['bold'])
+        cprint('ä»£ç æ•°é‡ä¸ºï¼š' + str(code_num), 'blue', attrs=['bold'])
+        cprint('ç©ºæ ¼æ•°é‡ä¸ºï¼š' + str(blank_num), 'blue', attrs=['bold'])
+        cprint('æ³¨é‡Šæ•°é‡ä¸ºï¼š' + str(comment_num), 'blue', attrs=['bold'])
 
 if __name__ == '__main__':
     statistics_file()
 
 '''
-Ë¼Â·£ºÊ×ÏÈ½âÎö²ÎÊı£¬Èç¹ûÃ»ÓĞÂ·¾¶¶øÇÒÎŞÆäËû²ÎÊı£¬ÔòÖ±½Ó´òÓ¡µ±Ç°Ä¿Â¼ÏÂÍ³¼ÆµÄÎÄ¼ş×ÜÊıºÍÎÄ¼ş¼ĞÊıÁ¿
-Èç¹ûÓĞÂ·¾¶ÔòÊ¹ÓÃ¸ÃÂ·¾¶£¬ÎŞ²ÎÊıÇé¿öÏÂµÄÎÄ¼şÊıÁ¿ºÍÎÄ¼ş¼ĞÊıÁ¿
-Èç¹ûÓĞ²ÎÊı£¬Ôòµ±Ç°Î»ÖÃÏÂ£¬ËùÓĞÖ¸¶¨ÎÄ¼şµÄ¸öÊı£¬code and comment and blank
-ÎŞ²ÎÊıÍ¬ÉÏÉÏ
-ÓĞ-vÔò´òÓ¡ÏêÇé
+æ€è·¯ï¼šé¦–å…ˆè§£æå‚æ•°ï¼Œå¦‚æœæ²¡æœ‰è·¯å¾„è€Œä¸”æ— å…¶ä»–å‚æ•°ï¼Œåˆ™ç›´æ¥æ‰“å°å½“å‰ç›®å½•ä¸‹ç»Ÿè®¡çš„æ–‡ä»¶æ€»æ•°å’Œæ–‡ä»¶å¤¹æ•°é‡
+å¦‚æœæœ‰è·¯å¾„åˆ™ä½¿ç”¨è¯¥è·¯å¾„ï¼Œæ— å‚æ•°æƒ…å†µä¸‹çš„æ–‡ä»¶æ•°é‡å’Œæ–‡ä»¶å¤¹æ•°é‡
+å¦‚æœæœ‰å‚æ•°ï¼Œåˆ™å½“å‰ä½ç½®ä¸‹ï¼Œæ‰€æœ‰æŒ‡å®šæ–‡ä»¶çš„ä¸ªæ•°ï¼Œcode and comment and blank
+æ— å‚æ•°åŒä¸Šä¸Š
+æœ‰-våˆ™æ‰“å°è¯¦æƒ…
 '''
