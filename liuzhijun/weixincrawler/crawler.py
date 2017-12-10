@@ -1,41 +1,49 @@
 # -*- coding: utf-8 -*-
-__author__ = "liuzhijun"
 
 import requests
+import re
+import html
+import json
+
+import utils
+from models import Post
+
+__author__ = "liuzhijun"
 
 
 def crawl():
-    url = "https://mp.weixin.qq.com/mp/profile_ext" \
-          "?action=home" \
-          "&__biz=MjM5MzgyODQxMQ==" \
-          "&scene=124&devicetype=android-24&version=26051633" \
-          "&lang=zh_CN" \
-          "&nettype=WIFI" \
-          "&a8scene=3" \
-          "&pass_ticket=MXADI5SFjXvX7DFPRuUEJhWHEWvRha2x1Re%2BoJkveUxIonMfnxY1kM9cOPmm6JRxs" \
-          "&wx_header=1"
+    url = "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MjM5MzgyODQxMQ==&devicetype=android-24&version=26051633&lang=zh_CN&nettype=WIFI&a8scene=7&pass_ticket=oZQqv0KR7zhxAix1SHUFLwI7p%2FiKH2NPWIdEmZidhitAOdpf873t%2BLEZU9Hnxx%2FT&wx_header=1"
 
     headers = """
 Host: mp.weixin.qq.com
 Connection: keep-alive
 Upgrade-Insecure-Requests: 1
 User-Agent: Mozilla/5.0 (Linux; Android 7.0; M1 E Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043632 Safari/537.36 MicroMessenger/6.5.22.1160 NetType/WIFI Language/zh_CN
-x-wechat-uin: NTI1NDc3NTE4
-x-wechat-key: b6f571a259216ac8d51aaa5003f0834cac6508e76c877091c89f4c762cb75c478076429b3bdf9b51980e7105b887eceaf23a2480871c5f08e6162d297f7bee4c6ce4a94b1591446f68db276ba0686991
+x-wechat-uin: NzYyMTk0MjA5
+x-wechat-key: fd5c9a3cb2dfc34471eb84f2974adbd312d41a0fbdce948dd4fbb2c910e700194c0c314ec88033aa8c3654f4f70b1bddc52bb6332abaf36259d2ba7c2fc7abf67e7ea158fee2f096ed976e807aca7874
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/wxpic,image/sharpp,*/*;q=0.8
 Accept-Encoding: gzip, deflate
 Accept-Language: zh-CN,en-US;q=0.8
-Cookie: rewardsn=bfcf84efa5c0e2d0cc3b; wxtokenkey=bacede7644d9c17f50857845a11030d0b2cd3a03f466643202911d67d086fee4; wxuin=525477518; pass_ticket=MXADI5SFjXvX7DFPRuUEJhWHEWvRha2x1Re+oJkveUxIonMfnxY1kM9cOPmm6JRx; wap_sid2=CI7NyPoBElxwOS1rSVprUGpYUjYwdXduOUpDblZlY3RaUXIyaFhyODRzN2NRTkhrNS1ZazhfNzhNMkJhMUpkYnEteThMcG15MWVWNEFrSGJGTjE2Njg1czJzX2xSS1VEQUFBfjDLvY3RBTgNQJVO
+Cookie: rewardsn=16d9a36f4e4e74794662; wxtokenkey=b19d70f2914f54856f9c62b7d8f1000ef682e08aef1686dad9b3e2a35cf1c96a; wxuin=762194209; devicetype=android-24; version=26051633; lang=zh_CN; pass_ticket=oZQqv0KR7zhxAix1SHUFLwI7p/iKH2NPWIdEmZidhitAOdpf873t+LEZU9Hnxx/T; wap_sid2=CKHSuOsCElx2bndhQnhwbVhpOVZaTFFnYWVvZnBSTDFySFlyTGJ5TURwRGpsYkZHbmJjcTlzWWw4QnNtbGRGWEtlb3VLb3A0b1Btem5HaElEaEVvZWpnZDlYUmxwcVlEQUFBfjCzkrXRBTgNQAE=
 Q-UA2: QV=3&PL=ADR&PR=WX&PP=com.tencent.mm&PPVN=6.5.22&TBSVC=43602&CO=BK&COVC=043632&PB=GE&VE=GA&DE=PHONE&CHID=0&LCID=9422&MO= M1E &RL=1080*1920&OS=7.0&API=24
 Q-GUID: 0fd685fa8c515a30dd9f7caf13b788cb
 Q-Auth: 31045b957cf33acf31e40be2f3e71c5217597676a9729f1b
 
+
+
     """
     headers = headers_to_dict(headers)
     response = requests.get(url, headers=headers, verify=False)
+
+    if '<title>验证</title>' in response.text:
+        raise Exception("无法正确获取内容，请检查请求参数和请求头")
+
     data = extract_data(response.text)
     for item in data:
-        print(item)
+        keys = ('title', 'author', 'content_url', 'digest', 'cover', 'source_url')
+        sub_data = utils.sub_dict(item.get("app_msg_ext_info"), keys)
+        post = Post(**sub_data)
+        post.save()
 
 
 def extract_data(html_content):
@@ -44,21 +52,20 @@ def extract_data(html_content):
     :param html_content 页面源代码
     :return: 历史文章列表
     """
-    import re
-    import html
-    import json
 
     rex = "msgList = '({.*?})'"
     pattern = re.compile(pattern=rex, flags=re.S)
     match = pattern.search(html_content)
     if match:
         data = match.group(1)
-        data = html.unescape(data)
+        print(data)
+        data = html.unescape(html.unescape(data)).replace("\/", "/")
+        print(data)
         data = json.loads(data)
         articles = data.get("list")
-        for item in articles:
-            print(item)
         return articles
+    else:
+        return []
 
 
 def headers_to_dict(headers):
