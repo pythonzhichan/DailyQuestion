@@ -22,7 +22,7 @@ class Post(Document):
     content = StringField()  # 文章内容
     source_url = StringField()  # 原文链接
     digest = StringField()  # 文章摘要
-    cover = URLField()  # 封面图
+    cover = URLField(validation=None)  # 封面图
     c_date = DateTimeField()  # 推送时间
     read_num = IntField(default=0)  # 阅读数
     like_num = IntField(default=0)  # 点赞数
