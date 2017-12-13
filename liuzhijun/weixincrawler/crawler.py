@@ -28,17 +28,20 @@ class WeiXinCrawler:
         headers = """
 Host: mp.weixin.qq.com
 Connection: keep-alive
+Cache-Control: max-age=0
 Upgrade-Insecure-Requests: 1
 User-Agent: Mozilla/5.0 (Linux; Android 5.1.1; 2014813 Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043632 Safari/537.36 MicroMessenger/6.5.23.1180 NetType/WIFI Language/zh_CN
 x-wechat-uin: NTI1NDc3NTE4
-x-wechat-key: 090f994b8eef2afebb831e29ef6cf79a29b86977731e59be8472882672e782c09a6c55c86f2fe9a06c9097f9d3308ad8762d264388f09783f154d3a74bafe88f24176c510a5404157ed929ee14edc92f
+x-wechat-key: c37a3f1c3525d70e6537599058680a1c1d38d754815c6f101c7bf3fbc5bbcd19f8c54895c965c0d624b36d11da34033eb5109c5e40524df3109f43943505a19d0b3f68bacb0b77cbae35a251a1722f98
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/wxpic,image/sharpp,*/*;q=0.8
 Accept-Encoding: gzip, deflate
 Accept-Language: zh-CN,en-US;q=0.8
-Cookie: wxtokenkey=b1d4e4445dcae0709cbce36399cc755fc704bf88643783c8597600e21eca3817; wxuin=525477518; devicetype=android-22; version=26051730; lang=zh_CN; pass_ticket=lDUqy/K9AFwZZVe8RDrxTER0kM1SAjDpAhfBgj2bW4QyP8V2lsi9gMbN/TJ0Nq7w; wap_sid2=CI7NyPoBElwzMXdlemVQTGJud2ZkUDRzWDNqaERicS1TckptdzNlMzExek1LdGpQajdYcjRLd1p6aXI0WXZuOXJmc1NLZjVKenhqbEpCR1Y5X2tOU21IWEVRRjlCNllEQUFBfjCSyb3RBTgNQAE=; rewardsn=8565553facc8b7f45540
+Cookie: rewardsn=1872e6d4042552713dff; wxtokenkey=990d7740963fdbea6cf44ba78c4166b7f9025262edc22a0977c781f8073b54aa; wxuin=525477518; devicetype=android-22; version=26051731; lang=zh_CN; pass_ticket=wxW7ApnFNe01tZe42nkIH5EExbK+YA45O1NzaLk7uLZBPks8RzUA4gzD6hxU9V5n; wap_sid2=CI7NyPoBElxldXVmX1B4VVVJbXdNTnh4SDZ2YXlMcURDWENucDhvWmZoMktqRmQzYWJVRXV6b29TYmJWX2VscG4zekh2ZzVxWVhmcGpraDBLUEg3LTZZNmNXYXl2S1lEQUFBfjCQmMPRBTgMQJRO
 Q-UA2: QV=3&PL=ADR&PR=WX&PP=com.tencent.mm&PPVN=6.5.23&TBSVC=43602&CO=BK&COVC=043632&PB=GE&VE=GA&DE=PHONE&CHID=0&LCID=9422&MO= 2014813 &RL=720*1280&OS=5.1.1&API=22
 Q-GUID: 9d4417681f44eeb4410b613d13b788cb
 Q-Auth: 31045b957cf33acf31e40be2f3e71c5217597676a9729f1b
+
+
 
 
 
@@ -60,6 +63,7 @@ Q-Auth: 31045b957cf33acf31e40be2f3e71c5217597676a9729f1b
         if match:
             msg_list = match.group(1)
             logger.info("抓取数据： %s" % msg_list)
+            msg_list = html.unescape(html.unescape(msg_list))
             self.save(msg_list)
         else:
             logger.warning("没有找到匹配的数据")
@@ -81,7 +85,7 @@ Q-Auth: 31045b957cf33acf31e40be2f3e71c5217597676a9729f1b
               "key=777&" \
               "pass_ticket=lDUqy%2FK9AFwZZVe8RDrxTER0kM1SAjDpAhfBgj2bW4QyP8V2lsi9gMbN%2FTJ0Nq7w&" \
               "wxtoken=&" \
-              "appmsg_token=934_heGJ6jj2wOGxXMlAo6N3gACqI9s6tqV9UIfUgQ~~&" \
+              "appmsg_token=935_GxAo%2BiWnvCj80gcRR5iWbvAetsVErB5CLhSNJg~~&" \
               "x5=1&" \
               "f=json".format(offset=offset)  # appmsg_token 也是临时的
 
@@ -91,16 +95,13 @@ Connection: keep-alive
 X-Requested-With: XMLHttpRequest
 User-Agent: Mozilla/5.0 (Linux; Android 5.1.1; 2014813 Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043632 Safari/537.36 MicroMessenger/6.5.23.1180 NetType/WIFI Language/zh_CN
 Accept: */*
-Referer: https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MjM5MzgyODQxMQ==&devicetype=android-22&version=26051730&lang=zh_CN&nettype=WIFI&a8scene=7&session_us=gh_c744c4d09c36&pass_ticket=lDUqy%2FK9AFwZZVe8RDrxTER0kM1SAjDpAhfBgj2bW4QyP8V2lsi9gMbN%2FTJ0Nq7w&wx_header=1
+Referer: https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzIwMTc4ODE0Mw==&devicetype=android-22&version=26051731&lang=zh_CN&nettype=WIFI&a8scene=7&session_us=gh_5138cebd4585&pass_ticket=wxW7ApnFNe01tZe42nkIH5EExbK%2BYA45O1NzaLk7uLZBPks8RzUA4gzD6hxU9V5n&wx_header=1
 Accept-Encoding: gzip, deflate
 Accept-Language: zh-CN,en-US;q=0.8
-Cookie: wxtokenkey=b1d4e4445dcae0709cbce36399cc755fc704bf88643783c8597600e21eca3817; rewardsn=8565553facc8b7f45540; wxuin=525477518; devicetype=android-22; version=26051730; lang=zh_CN; pass_ticket=lDUqy/K9AFwZZVe8RDrxTER0kM1SAjDpAhfBgj2bW4QyP8V2lsi9gMbN/TJ0Nq7w; wap_sid2=CI7NyPoBElwzMXdlemVQTGJud2ZkUDRzWDNqaERkSW5QZ1BBZ25sdUQ2SVZZMFE5Nnc3OVBwYnR1eWFydW1rOWVNT0g1bktjTms3Qmtibk1mdEpLcVotaThIbE80NllEQUFBfjDwh77RBTgMQJRO
+Cookie: rewardsn=1872e6d4042552713dff; wxtokenkey=990d7740963fdbea6cf44ba78c4166b7f9025262edc22a0977c781f8073b54aa; wxuin=525477518; devicetype=android-22; version=26051731; lang=zh_CN; pass_ticket=wxW7ApnFNe01tZe42nkIH5EExbK+YA45O1NzaLk7uLZBPks8RzUA4gzD6hxU9V5n; wap_sid2=CI7NyPoBElxNWnRoazhJNk5CQkdYQ3NBRXZBNmVYbDVncS1yVkdsVjFQYUpCU3J6UGZ1WmxubC1wT3p4WkE4ZFY0dnRpaDdlZnJ1ank4dkdZbXpnNUd2V2hpbjNQS2NEQUFBfjCimMPRBTgMQJRO
 Q-UA2: QV=3&PL=ADR&PR=WX&PP=com.tencent.mm&PPVN=6.5.23&TBSVC=43602&CO=BK&COVC=043632&PB=GE&VE=GA&DE=PHONE&CHID=0&LCID=9422&MO= 2014813 &RL=720*1280&OS=5.1.1&API=22
 Q-GUID: 9d4417681f44eeb4410b613d13b788cb
 Q-Auth: 31045b957cf33acf31e40be2f3e71c5217597676a9729f1b
-
-
-
 
 
 
@@ -135,7 +136,6 @@ Q-Auth: 31045b957cf33acf31e40be2f3e71c5217597676a9729f1b
         """
         # TODO 处理多图文 multi_app_msg_item_list
         msg_list = msg_list.replace("&quot;", "\\\"").replace("\/", "/")
-        msg_list = html.unescape(html.unescape(msg_list))
         data = json.loads(msg_list)
         posts = data.get("list")
         for item in posts:
@@ -155,5 +155,5 @@ Q-Auth: 31045b957cf33acf31e40be2f3e71c5217597676a9729f1b
 
 if __name__ == '__main__':
     crawler = WeiXinCrawler()
-    # crawler.crawl_latest_10()
+    crawler.crawl_latest_10()
     crawler.crawl_more()
