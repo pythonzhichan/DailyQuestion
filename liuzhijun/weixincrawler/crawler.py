@@ -176,20 +176,7 @@ Q-Auth: 31045b957cf33acf31e40be2f3e71c5217597676a9729f1b
 
     def detail(self, article_url):
         # 文章链接
-        article_url = "https://mp.weixin.qq.com/s?__biz=MjM5MzgyODQxMQ==&" \
-                      "mid=2650367634&" \
-                      "idx=1&" \
-                      "sn=ec23c954f7adad842d706c2ec687a35e&" \
-                      "chksm=be9cddc689eb54d07cd27f260f8ce7bf48d5702dc59a7f9b32725a7fd02d8b4a34f58382e4f5&" \
-                      "scene=0&" \
-                      "ascene=7&" \
-                      "devicetype=android-22&" \
-                      "version=26051731&" \
-                      "nettype=WIFI&" \
-                      "abtest_cookie=AwABAAoADAANAAkAJIgeALuIHgDZiB4A4YgeAPyIHgANiR4A74keAPqJHgAJih4AAAA%3D&" \
-                      "lang=zh_CN&" \
-                      "pass_ticket=wxW7ApnFNe01tZe42nkIH5EExbK%2BYA45O1NzaLk7uLZBPks8RzUA4gzD6hxU9V5n&" \
-                      "wx_header=1"
+        article_url = "http://mp.weixin.qq.com/s?__biz=MjM5MzgyODQxMQ==&mid=2650367644&idx=1&sn=9951edf4e9bfebcdaa7dd66a639befea&chksm=be9cddc889eb54de36a00865dcd15f9cf906d1868430dd62f1fe550b55e713b333344811e717&scene=27#wechat_redirect"
 
         header = """
 Host: mp.weixin.qq.com
@@ -208,57 +195,33 @@ Connection: keep-alive
 
         """
 
-        print(article_url)
-        response = requests.get(article_url, headers=utils.str_to_dict(header))
-        print(response.text)
-        appmsg_token, = utils.extract_text(response.text, r"appmsg_token.*?\"(\S+)\"")
-        print(appmsg_token)
-        response.text
+        # print(article_url)
+        # response = requests.get(article_url, headers=utils.str_to_dict(header))
+        # print(response.text)
+        # appmsg_token, = utils.extract_text(response.text, r"appmsg_token.*?\"(\S+)\"")
+        # print(appmsg_token)
+        # response.text
 
-        import urllib
-        print(urllib.parse.urlsplit(article_url).query)
-        article_url = "http://mp.weixin.qq.com/s?" \
-                      "__biz=MjM5MzgyODQxMQ==&" \
-                      "mid=2650367644&idx=1&sn=9951edf4e9bfebcdaa7dd66a639befea&chksm=be9cddc889eb54de36a00865dcd15f9cf906d1868430dd62f1fe550b55e713b333344811e717&scene=27#wechat_redirect"
-        data_url = "https://mp.weixin.qq.com/mp/getappmsgext"
+
 
         data_url = "https://mp.weixin.qq.com/mp/getappmsgext"
         # appmsg_token = "935_NOFCGGSMbypif53YGURwVY2zSD6xcJ6N_0kYBbA3uOc7G6f172hKMrEYEuF2aoAgCZfZqy2vfiqpaOKH"
 
-        data_param = {'__biz': 'MjM5MzgyODQxMQ==',
-                      'appmsg_type': '9',
-                      'mid': '2650367644',  # 可能是微信文章ID
-                      'sn': '9951edf4e9bfebcdaa7dd66a639befea',
-                      'idx': '1', 'scene': '27',
-                      'ct': '1513035896',
-                      'abtest_cookie': 'AwABAAoADAANAAoAJIgeAEyIHgBiiB4A2ogeAPyIHgAOiR4Ab4keAPCJHgD4iR4AB4oeAAAA',
-                      'devicetype': 'iOS10.3.3', 'version': '/mmbizwap/zh_CN/htmledition/js/appmsg/index393966.js',
-                      'f': 'json',
-                      'r': '0.4737616995159224', 'is_need_ad': '1', 'comment_id': '4200886237', 'is_need_reward': '1',
-                      'both_ad': '0', 'reward_uin_count': '27', 'msg_daily_idx': '1', 'is_original': '0', 'uin': '777',
-                      'key': '777',
-                      'pass_ticket': 'bh2aZVyo%25252ByUXTHI%25252B3G7VDrZTFJH7e41TRdHFcHjOjyqrCJe2rpXirBD4QSKU2maB',
-                      'wxtoken': '1082715157', 'clientversion': '16060021',
-                      'appmsg_token': '935_ale1QIchYa5yhL23YfFID3P9orUrZgludl8x0DM-Kzji1H3GmguOr5xpUVCpsKh1G5EmVd2msa4m2dRq',
-                      'x5': '0'}
+        data_param = {
+            'comment_id': '4200886237',
+            'is_need_reward': '1',
+            'reward_uin_count': '27',
+            'msg_daily_idx': '1',
+            'is_original': '0',
+            'uin': '777',
+            'key': '777',
+            'pass_ticket': 'bh2aZVyo%25252ByUXTHI%25252B3G7VDrZTFJH7e41TRdHFcHjOjyqrCJe2rpXirBD4QSKU2maB',
+            'wxtoken': '1082715157',
+            'appmsg_token': '935_ale1QIchYa5yhL23YfFID3P9orUrZgludl8x0DM-Kzji1H3GmguOr5xpUVCpsKh1G5EmVd2msa4m2dRq',
+            }
 
-        # data_param = {
-        #     'appmsg_type': '9',
-        #     #   'abtest_cookie': 'AwABAAoADAANAAkAJIgeALuIHgDZiB4A4YgeAPyIHgANiR4A74keAPqJHgAJih4AAAA=',
-        #     'f': 'json',
-        #     'r': '0.6902087163157813',
-        #     'is_need_reward': '1',
-        #     'both_ad': '0',
-        #     'reward_uin_count': '24',
-        #     'msg_daily_idx': '1',
-        #     'is_original': '0',
-        #     'uin': '777',
-        #     'clientversion': '26051731',
-        #     'appmsg_token': appmsg_token,
-        #     'x5': '1'}
-
-        # article_param = utils.str_to_dict(urlsplit(article_url).query, "&", "=")
-        # data_param.update(article_param)
+        article_param = utils.str_to_dict(urlsplit(article_url).query, "&", "=")
+        data_param.update(article_param)
 
         body = "is_only_read=1&req_id=1412MureIWcNGlE3ILXVOGp2&" \
                "pass_ticket={pass_ticket}".format(pass_ticket=data_param.get("pass_ticket"))
