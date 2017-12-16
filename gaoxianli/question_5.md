@@ -15,7 +15,7 @@
 **没有 net\_loc（相对路径的形式）**
 > ./?t=2017112
 
-![relatively path](./images/relatively_path.png)
+![relatively path](./images/question_5/relatively_path.png)
 
 其实际的绝对路径是
 > https://mp.weixin.qq.com/debug/wxadoc/dev/?t=2017112
@@ -44,9 +44,9 @@
 第一部分是**模式/协议**，它告诉浏览器如何处理将要打开的文件。常见的协议有 http（超文本传输协议）、https（加密版的http）、ftp（文件传输协议）、……，
 其它协议还有：
 
-![Transfer Protocol](./images/Transfer_Protocol.png)
+![Transfer Protocol](./images/question_5/Transfer_Protocol.png)
 
-![WSS Transfer Protocol](./images/WSS_Transfer_Protocol.png)
+![WSS Transfer Protocol](./images/question_5/WSS_Transfer_Protocol.png)
 
 它在 URL 字符串中的特征是：如果一个URL链接中包含传输协议字符串，那么它肯定是在最前面几个字符串并且它之后是“://”，因为协议都是由字母组成，所以它的正则可以写成一下方式：
 
@@ -56,7 +56,7 @@
 其中 `(?=://)` 表示以“**://**”结尾，但**不**包含“**://**”
 考虑到很多页面的链接也有以不区分协议的方式书写，如下所示：
 
-![No distinction between agreements](./images/No_distinction_between_agreements.png)
+![No distinction between agreements](./images/question_5/No_distinction_between_agreements.png)
 
 > //s01.mifile.cn/css/index.min.css?a4fc84
 
@@ -76,7 +76,7 @@
 ### net\_loc
 
 第二部分是**域名**，它是由英文字母（不区分大小写）、数字、中文汉字（这里不考虑汉字的情况）以及横杠 "-" 构成，不能使用空格及特殊字符（如！、$、&、?等）。“-” 不能单独注册或连续使用，不能放在开头或结尾。因为 **\w** 相当于[a-zA-Z0-9_]，而域名中不能出现下划线_，所以这里**不使用 \w**
-![Domain name rules](./images/Domain_name_rules.png)
+![Domain name rules](./images/question_5/Domain_name_rules.png)
 ```
 [a-zA-Z0-9]+-?[a-zA-Z0-9]+\.?
 ```
@@ -124,7 +124,7 @@
 第三部分是**路径**。如果包含问号“?”，则紧挨 域名 字符串之后的斜杠“/”到问号“?”之间的为路径字符串。匹配“/”时，为了避免匹配到协议后面的“://”，可以让“/”前面多识别一个字母（不是字符，因为域名后缀（如：com、org、cn、……）都是由字母组成的）。
 不考虑中文或其它语言的情况
 
-![Simplified Chinese domain name suffix](./images/Simplified_Chinese_domain_name_suffix.png)
+![Simplified Chinese domain name suffix](./images/question_5/Simplified_Chinese_domain_name_suffix.png)
 
 因为路径是以斜杠“/”开头，最短的路径也是它，所以写成路径开头的正则写成这样：
 ```
@@ -133,13 +133,13 @@
 
 路径本质上是指向某个目录下的文件，而有时看到的 URL 好像只有路径，其实最后一个“目录”就是没有后缀、内容为 html 文本的文件，如下：
 
-![path_and_file.png](./images/path_and_file.png)
+![path_and_file.png](./images/question_5/path_and_file.png)
 
 > https://github.com/pythonzhichan/DailyQuestion
 
 而路径又分为绝对路径与相对路径，如下：
 
-![relatively path](./images/relatively_path.png)
+![relatively path](./images/question_5/relatively_path.png)
 
 其实际的绝对路径是
 

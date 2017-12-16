@@ -34,6 +34,8 @@ class url:
 		print("fragment:", fragment, "\n")
 
 
+
+
 if __name__ == "__main__":
 	try:
 		while True:
