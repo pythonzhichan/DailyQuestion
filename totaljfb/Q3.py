@@ -34,9 +34,9 @@ def read_text(file):
             word_list.remove(item)
     f.close()
     return word_list
-
-#define a function to count all the items in the list and get the word whioch has
-#the most counts
+'''
+define a function to get the top n most counts items
+'''
 def most_occurrences_word(input_list,n):
     c = collections.Counter(input_list)
     return c.most_common()[0:n]
@@ -48,6 +48,7 @@ while not os.path.isfile(text_file):
     text_file = input("Plase enter a vaild file: ")
 in_list = read_text(text_file)
 occurences_list = most_occurrences_word(in_list,5)
+
 #show result
 for item in occurences_list:
     print(item)
