@@ -1,3 +1,0 @@
-numbers=[23,34,45,56,67]
-for i in range(len(numbers)):
-    print('{0},{1}'.format(i,numbers[i]))
